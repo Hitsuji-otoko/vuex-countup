@@ -36,7 +36,7 @@ export default {
       () => counter.state.count.value
       // mapGetters(["getCount"])
     );
-    let isTimerOn = computed(() => counter.state.count.timerOn);
+    const isTimerOn = computed(() => counter.state.count.timerOn);
 
     const error = ref(null);
 
@@ -47,12 +47,10 @@ export default {
 
     const startTimer = () => {
       counter.dispatch("startTimer");
-      isTimerOn = counter.state.count.timerOn;
     };
 
     const stopTimer = () => {
       counter.dispatch("stopTimer");
-      isTimerOn = counter.state.count.timerOn;
     };
 
     const resetCounterValue = () => {
