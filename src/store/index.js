@@ -20,11 +20,34 @@ const mutations = {
   minusCounter(state) {
     state.count.value--
   },
+
+  clearTimer(state) {
+    clearInterval(state.count.timerObj)
+  },
+  timerOn(state) {
+    state.count.timerOn = true
+  } ,
+  timerOff(state) {
+    state.count.timerOn = false
+  },
 }
 
 const actions = {
   plusCounter: ({commit}) => commit("plusCounter"),
   minusCounter: ({commit}) => commit("minusCounter"),
+
+  startTimer: ({commit, state}) => {
+    commit("clearTimer")
+    state.count.timerObj = setInterval(() => {
+      commit("plusCounter")
+    }, 1000);
+    commit("timerOn")
+  },
+
+  stopTimer: ({commit}) => {
+    commit("clearTimer")
+    commit("timerOff")
+  }
 }
 
 const modules = {

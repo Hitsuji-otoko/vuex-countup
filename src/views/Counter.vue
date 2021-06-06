@@ -5,8 +5,8 @@
     {{ count }}
     <plusButton />
     <hr />
-    <button @click="startTimer" v-if="!isTimerOn">▶︎</button> |
-    <button @click="stopTimer" v-if="isTimerOn">■</button>
+    <button @click="startTimer()" v-if="!isTimerOn">▶︎</button> |
+    <button @click="stopTimer()" v-if="isTimerOn">■</button>
     <div v-if="error">
       {{ error.message }}
     </div>
@@ -30,7 +30,10 @@ export default {
 
   setup() {
     const counter = useStore();
-    const count = computed(() => counter.state.count.value);
+    const count = computed(
+      () => counter.state.count.value
+      // mapGetters(["getCount"])
+    );
 
     const error = ref(null);
 
@@ -39,27 +42,24 @@ export default {
       return true;
     });
 
+    let isTimerOn = computed(() => counter.state.count.timerOn);
+
     const startTimer = () => {
-      clearInterval(counter.state.count.timerObj);
-      counter.state.count.timerObj = setInterval(() => {
-        counter.state.count.value++;
-      }, 1000);
-      counter.state.count.timerOn = true;
+      counter.dispatch("startTimer");
+      isTimerOn = counter.state.count.timerOn;
     };
 
     const stopTimer = () => {
-      clearInterval(counter.state.count.timerObj);
-      counter.state.count.timerOn = false;
+      counter.dispatch("stopTimer");
+      isTimerOn = counter.state.count.timerOn;
     };
-
-    const isTimerOn = computed(() => counter.state.count.timerOn);
 
     return {
       count,
       error,
+      isTimerOn,
       startTimer,
       stopTimer,
-      isTimerOn,
     };
   },
 };
