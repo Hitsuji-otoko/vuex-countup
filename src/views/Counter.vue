@@ -7,6 +7,8 @@
     <hr />
     <button @click="startTimer()" v-if="!isTimerOn">▶︎</button> |
     <button @click="stopTimer()" v-if="isTimerOn">■</button>
+    <br />
+    <button @click="resetCounterValue">RESET</button>
     <div v-if="error">
       {{ error.message }}
     </div>
@@ -34,6 +36,7 @@ export default {
       () => counter.state.count.value
       // mapGetters(["getCount"])
     );
+    let isTimerOn = computed(() => counter.state.count.timerOn);
 
     const error = ref(null);
 
@@ -41,8 +44,6 @@ export default {
       error.value = e;
       return true;
     });
-
-    let isTimerOn = computed(() => counter.state.count.timerOn);
 
     const startTimer = () => {
       counter.dispatch("startTimer");
@@ -54,12 +55,17 @@ export default {
       isTimerOn = counter.state.count.timerOn;
     };
 
+    const resetCounterValue = () => {
+      counter.dispatch("resetCounterValue");
+    };
+
     return {
       count,
       error,
       isTimerOn,
       startTimer,
       stopTimer,
+      resetCounterValue,
     };
   },
 };

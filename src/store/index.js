@@ -21,6 +21,9 @@ const mutations = {
     state.count.value--
   },
 
+  resetCounterValue(state) {
+    state.count.value = 0
+  },
   clearTimer(state) {
     clearInterval(state.count.timerObj)
   },
@@ -47,6 +50,10 @@ const actions = {
   stopTimer: ({commit}) => {
     commit("clearTimer")
     commit("timerOff")
+  },
+
+  resetCounterValue: ({commit}) => {
+    commit("resetCounterValue")
   }
 }
 
